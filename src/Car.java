@@ -27,7 +27,7 @@ public class Car {
         this.state = true;
     }
 
-    public void makeNumber(List<Car> cars) {
+    public void makeCars(List<Car> cars) {
         int a = 0;
         while (a < 200) {
             cars.add(makeCar());
@@ -44,13 +44,13 @@ public class Car {
     }
 
     public void goParking(List<Car> cars) {
+        Random rnd = new Random();
         for (Car car : cars) {
-            if(car.state){
-                Random rnd = new Random();
-                int rndNum = rnd.nextInt(100) + 1;
-                if (rndNum <= 3) {
-                    car.state = !car.state;
-                }
+            int rndNum = rnd.nextInt(100) + 1;
+            if(car.state && rndNum <= 3){
+                car.state = false;
+            }else if(!car.state && rndNum <= 3){
+                car.state = true;
             }
         }
     }
