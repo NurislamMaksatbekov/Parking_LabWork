@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Car {
     private boolean state;
@@ -28,7 +29,7 @@ public class Car {
 
     public void makeNumber(List<Car> cars) {
         int a = 0;
-        while (a < 200){
+        while (a < 200) {
             cars.add(makeCar());
             cars.get(a).number = a;
             a++;
@@ -40,6 +41,18 @@ public class Car {
         Car car = new Car();
         car.number = number;
         return car;
+    }
+
+    public void goParking(List<Car> cars) {
+        for (Car car : cars) {
+            if(car.state){
+                Random rnd = new Random();
+                int rndNum = rnd.nextInt(100) + 1;
+                if (rndNum <= 3) {
+                    car.state = !car.state;
+                }
+            }
+        }
     }
 
 
