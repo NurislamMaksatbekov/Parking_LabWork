@@ -8,17 +8,14 @@ public class Main {
         run();
     }
 
-    public static void run(){
+    public static void run() {
         LocalDateTime ldt = LocalDateTime.now();
-        for(LocalDateTime i = ldt; i.isBefore(ldt.plusDays(30)); i = i.plusMinutes(5)) {
-            Car car = new Car();
-            Parking parking = new Parking();
-            List<Car> cars = new ArrayList<>();
-            car.makeCars(cars);
-            car.goParking(cars);
-            List<Car> parkingPlase = new ArrayList<>();
-            parking.parkingFill(cars, parkingPlase);
-            System.out.println(parkingPlase);
+        Car car = new Car();//
+        List<Car> cars = new ArrayList<>();
+        for (LocalDateTime i = ldt; i.isBefore(ldt.plusDays(5)); i = i.plusMinutes(60)) {
+            City.makeCars(cars);
+            Note.parking(cars);
+            System.out.println(cars);
         }
     }
 }
