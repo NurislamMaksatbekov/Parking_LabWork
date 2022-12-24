@@ -15,7 +15,7 @@ public class Main {
         for (LocalDateTime i = ldt; i.isBefore(ldt.plusDays(5)); i = i.plusMinutes(60)) {
             City.makeCars(cars);
             Note.parking(cars);
-            System.out.println(cars);
+            Note.printNote();
         }
     }
 }
