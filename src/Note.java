@@ -1,35 +1,39 @@
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
-
 public class Note {
     private static Random rnd = new Random();
 
-    private static LocalDateTime  checkIn;
-    private static LocalDateTime checkOut;
+    private static LocalTime  checkIn;
+    private static LocalTime checkOut;
     private static Car carInParking;
-    private double sum;
+    private static int sum;
+
+    public Note() {
+        this.sum = checkSum();
+    }
 
     public static void checkParking(Car car){
         int rndNum = rnd.nextInt(100) + 1;
         if(!car.isState()){
             if(rndNum <= 3) {
                 car.setState(true);
-                checkOut = LocalDateTime.now();
+                checkOut = LocalTime.now();
             }
         }else{
             if(rndNum <= 3){
                 car.setState(false);
-                checkIn = LocalDateTime.now();
+                checkIn = LocalTime.now();
                 carInParking = car;
             }
         }
     }
 
     public static void printNote(){
-        System.out.println("| НОМЕР |      ВРЕМЯ ЗАЕЗДА           |       ВРЕМЯ ВЫЕЗДА          |");
-        System.out.printf("|  %-5s|%-10s|%-10s|\n", carInParking.getNumber(), checkIn, checkOut);
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("| НОМЕР |        ВРЕМЯ ЗАЕЗДА           |         ВРЕМЯ ВЫЕЗДА         |     ЗАДОЛЖНОСТЬ     |");
+        System.out.printf("|  %-5s|        %-23s|       %-23s|          %-11s|\n", carInParking.getNumber(), checkIn, checkOut, sum);
+        System.out.println("+--------------------------------------------------------------------------------------------+");
     }
 
     public static  void parking (List<Car> cars){
@@ -37,14 +41,51 @@ public class Note {
             checkParking(car);
         }
     }
+    public int checkSum(){
+        int checkTime = checkOut.getMinute() - checkIn.getMinute();
+        int price = checkTime * 2;
+        if(checkTime < 30 || checkIn.isAfter(LocalTime.of(21, 00)) || checkIn.isBefore(LocalTime.of(9, 00))) {
+            sum = 0;
+        }else{
+            sum = price;
+        }
+        return sum;
+    }
 
-//    public void print(List<Car> car){
-//        Car cars = new Car();
-//        Parking parking = new Parking();
-//        System.out.println("|       Номер       |     Состояние     |     Время заезда      |     Время выезда     |     Цена     |\n" +
-//                           "|___________________|___________________|_______________________|______________________|______________|");
-//        for (int i = 0; i < 200; i++) {
-//            System.out.printf("| %-10s| %-10s| %-10s| %-10s| %10-s|",cars.getNumber(), cars.isState(),cars.getTime(), cars.getTimeOfLeave(), parking.getPrice());
-//        }
+    public static Random getRnd() {
+        return rnd;
+    }
 
+    public static void setRnd(Random rnd) {
+        Note.rnd = rnd;
+    }
+
+    public static LocalTime getCheckIn() {
+        return checkIn;
+    }
+
+    public static void setCheckIn(LocalTime checkIn) {
+        Note.checkIn = checkIn;
+    }
+
+    public static LocalTime getCheckOut() {
+        return checkOut;
+    }
+
+    public static void setCheckOut(LocalTime checkOut) {
+        Note.checkOut = checkOut;
+    }
+
+    public static Car getCarInParking() {
+        return carInParking;
+    }
+
+    public static void setCarInParking(Car carInParking) {
+        Note.carInParking = carInParking;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
 }
+
