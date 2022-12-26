@@ -1,12 +1,13 @@
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Random;
 public class Note {
     private static Random rnd = new Random();
 
-    private static LocalTime  checkIn;
-    private static LocalTime checkOut;
+    private static LocalDateTime checkIn;
+    private static LocalDateTime checkOut;
     private static Car carInParking;
     private static int sum;
 
@@ -19,12 +20,12 @@ public class Note {
         if(!car.isState()){
             if(rndNum <= 3) {
                 car.setState(true);
-                checkOut = LocalTime.now();
+                checkOut = LocalDateTime.now();
             }
         }else{
             if(rndNum <= 3){
                 car.setState(false);
-                checkIn = LocalTime.now();
+                checkIn = LocalDateTime.now();
                 carInParking = car;
             }
         }
@@ -32,7 +33,7 @@ public class Note {
 
     public static void printNote(){
         System.out.println("| НОМЕР |        ВРЕМЯ ЗАЕЗДА           |         ВРЕМЯ ВЫЕЗДА         |     ЗАДОЛЖНОСТЬ     |");
-        System.out.printf("|  %-5s|        %-23s|       %-23s|          %-11s|\n", carInParking.getNumber(), checkIn, checkOut, sum);
+        System.out.printf("|  %-5s|   %-28s|  %-28s|          %-11s|\n", carInParking.getNumber(), checkIn, checkOut, sum);
         System.out.println("+--------------------------------------------------------------------------------------------+");
     }
 
@@ -44,7 +45,9 @@ public class Note {
     public int checkSum(){
         int checkTime = checkOut.getMinute() - checkIn.getMinute();
         int price = checkTime * 2;
-        if(checkTime < 30 || checkIn.isAfter(LocalTime.of(21, 00)) || checkIn.isBefore(LocalTime.of(9, 00))) {
+        LocalTime checkHour = LocalTime.of(21, 00);
+        LocalTime checkHour2 = LocalTime.of(9, 00);
+        if(checkTime < 30 || checkIn.isAfter(ChronoLocalDateTime.from(checkHour)) ||checkIn.isBefore(ChronoLocalDateTime.from(checkHour2))) {
             sum = 0;
         }else{
             sum = price;
@@ -60,19 +63,19 @@ public class Note {
         Note.rnd = rnd;
     }
 
-    public static LocalTime getCheckIn() {
+    public static LocalDateTime getCheckIn() {
         return checkIn;
     }
 
-    public static void setCheckIn(LocalTime checkIn) {
+    public static void setCheckIn(LocalDateTime checkIn) {
         Note.checkIn = checkIn;
     }
 
-    public static LocalTime getCheckOut() {
+    public static LocalDateTime getCheckOut() {
         return checkOut;
     }
 
-    public static void setCheckOut(LocalTime checkOut) {
+    public static void setCheckOut(LocalDateTime checkOut) {
         Note.checkOut = checkOut;
     }
 
