@@ -7,19 +7,13 @@ import java.util.Random;
 public class Car {
     private boolean state;
     private int number;
+    private int totalSum;
+
+
     private static Random rnd = new Random();
     public Car() {
         this.state = true;
     }
-
-
-    public Car makeCar() {
-        int number = 1;
-        Car car = new Car();
-        car.number = number;
-        return car;
-    }
-
 
     @Override
     public String toString() {

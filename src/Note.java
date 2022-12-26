@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 public class Note {
-    private Random rnd = new Random();
 
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
     private Car carInParking;
     private int sum;
+
+    private static Random rnd = new Random();
 
     public Note() {
         this.checkIn = LocalDateTime.now();
@@ -28,26 +29,36 @@ public class Note {
         int rndNum = rnd.nextInt(100) + 1;
         LocalDateTime a = getCheckIn().plusMinutes(5);
         Parking parking = new Parking();
-        if (!car.isState()) {
-            if (rndNum <= 3) {
-                car.setState(true);
-                parking.setFreeSpace(+1);
+        try {
+            if (!car.isState()) {
+                if (rndNum <= 3) {
+                    car.setState(true);
+                    parking.setFreeSpace(+1);
+                } else {
+                    setCheckOut(a);
+                }
             } else {
-                setCheckOut(a);
+                if (rndNum <= 3) {
+                    car.setState(false);
+                    setCarInParking(car);
+                    parking.setFreeSpace(-1);
+                }
+                else if (parking.getFreeSpace() == 0){
+                    throw new NumberFormatException();
+                }
             }
-        } else {
-            if (rndNum <= 3) {
-                car.setState(false);
-                setCarInParking(car);
-                parking.setFreeSpace(-1);
-            }
+        }catch (NumberFormatException e){
+            System.out.println("На парковке нет мест!");
         }
     }
 
     public void printNote() {
-        System.out.println("| НОМЕР |        ВРЕМЯ ЗАЕЗДА           |        ВРЕМЯ ВЫЕЗДА          |     ЗАДОЛЖНОСТЬ     |");
-        System.out.printf("|  %-5s| %-28s | %-28s|         %-11s |\n", getCarInParking().getNumber(), getCheckIn(), getCheckOut(), getSum());
-        System.out.println("+--------------------------------------------------------------------------------------------+");
+        City city = new City();
+        System.out.println("| НОМЕР |          ВРЕМЯ ЗАЕЗДА            |          ВРЕМЯ ВЫЕЗДА           |     ЗАДОЛЖНОСТЬ     |");
+//        System.out.printf("|  %-5s| %-32s | %-32s|         %-11s |\n", city.cars.getCarInParking().getNumber(), getCheckIn(), getCheckOut(), getSum());
+        for (Car car: city.cars) {
+            System.out.printf("|  %-5s| %-32s | %-32s|         %-11s |\n", city.cars.get(car.getNumber()).getNumber(), getCheckIn(), getCheckOut(), getSum());
+        }
     }
 
     public void parking(List<Car> cars) {

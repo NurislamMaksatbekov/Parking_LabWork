@@ -1,7 +1,9 @@
+import java.util.List;
 
 public class Parking {
-    private static Car car = new Car();
     private int freeSpace;
+    private List<Note> notes;
+
 
     public Parking() {
         this.freeSpace = 20;
