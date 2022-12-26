@@ -26,7 +26,6 @@ public class Main {
                 note.parking(city.cars);
                 note.printNote();
                 a++;
-                System.out.println("--------------------------------------------------------------------");
             }
         }
     }
