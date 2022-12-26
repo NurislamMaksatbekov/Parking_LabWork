@@ -19,12 +19,6 @@ public class Note {
         this.sum = checkSum();
     }
 
-    //    public Note() {
-//        this.sum = checkSum();
-//        this.checkIn = LocalDateTime.now();
-//        this.checkOut = LocalDateTime.now();
-//    }
-
     public void checkParking(Car car) {
         int rndNum = rnd.nextInt(100) + 1;
         LocalDateTime a = getCheckIn().plusMinutes(5);
@@ -55,7 +49,6 @@ public class Note {
     public void printNote() {
         City city = new City();
         System.out.println("| НОМЕР |          ВРЕМЯ ЗАЕЗДА            |          ВРЕМЯ ВЫЕЗДА           |     ЗАДОЛЖНОСТЬ     |");
-//        System.out.printf("|  %-5s| %-32s | %-32s|         %-11s |\n", city.cars.getCarInParking().getNumber(), getCheckIn(), getCheckOut(), getSum());
         for (Car car: city.cars) {
             System.out.printf("|  %-5s| %-32s | %-32s|         %-11s |\n", city.cars.get(car.getNumber()).getNumber(), getCheckIn(), getCheckOut(), getSum());
         }
@@ -84,20 +77,12 @@ public class Note {
         return checkIn;
     }
 
-    public void setCheckIn(LocalDateTime checkIn) {
-        this.checkIn = checkIn;
-    }
-
     public LocalDateTime getCheckOut() {
         return checkOut;
     }
 
     public void setCheckOut(LocalDateTime checkOut) {
         this.checkOut = checkOut;
-    }
-
-    public Car getCarInParking() {
-        return carInParking;
     }
 
     public void setCarInParking(Car carInParking) {

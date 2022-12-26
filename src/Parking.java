@@ -1,9 +1,5 @@
-import java.util.List;
-
 public class Parking {
     private int freeSpace;
-    private List<Note> notes;
-
 
     public Parking() {
         this.freeSpace = 20;

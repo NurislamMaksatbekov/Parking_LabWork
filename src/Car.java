@@ -1,13 +1,8 @@
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Car {
     private boolean state;
     private int number;
-    private int totalSum;
 
 
     private static Random rnd = new Random();
