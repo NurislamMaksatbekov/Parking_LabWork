@@ -11,12 +11,13 @@ public class Main {
 
     public static void run() {
         LocalDateTime ldt = LocalDateTime.now();
-        Car car = new Car();//
+        Car car = new Car();
         List<Car> cars = new ArrayList<>();
+        Note note = new Note();
+        City.makeCars(cars);
         for (LocalDateTime i = ldt; i.isBefore(ldt.plusDays(5)); i = i.plusMinutes(60)) {
-            City.makeCars(cars);
-            Note.parking(cars);
-            Note.printNote();
+            note.parking(cars);
+            note.printNote();
         }
     }
 }

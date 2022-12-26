@@ -6,4 +6,12 @@ public class Parking {
     public Parking() {
         this.freeSpace = 20;
     }
+
+    public int getFreeSpace() {
+        return freeSpace;
+    }
+
+    public void setFreeSpace(int freeSpace) {
+        this.freeSpace = freeSpace;
+    }
 }

@@ -3,88 +3,98 @@ import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Random;
-public class Note {
-    private static Random rnd = new Random();
 
-    private static LocalDateTime checkIn;
-    private static LocalDateTime checkOut;
-    private static Car carInParking;
-    private static int sum;
+public class Note {
+    private Random rnd = new Random();
+
+    private LocalDateTime checkIn;
+    private LocalDateTime checkOut;
+    private Car carInParking;
+    private int sum;
 
     public Note() {
+        this.checkIn = LocalDateTime.now();
+        this.checkOut = LocalDateTime.now();
         this.sum = checkSum();
     }
 
-    public static void checkParking(Car car){
+    //    public Note() {
+//        this.sum = checkSum();
+//        this.checkIn = LocalDateTime.now();
+//        this.checkOut = LocalDateTime.now();
+//    }
+
+    public void checkParking(Car car) {
         int rndNum = rnd.nextInt(100) + 1;
-        if(!car.isState()){
-            if(rndNum <= 3) {
+        LocalDateTime a = getCheckIn().plusMinutes(5);
+        Parking parking = new Parking();
+        if (!car.isState()) {
+            if (rndNum <= 3) {
                 car.setState(true);
-                checkOut = LocalDateTime.now();
+                parking.setFreeSpace(+1);
+            } else {
+                setCheckOut(a);
             }
-        }else{
-            if(rndNum <= 3){
+        } else {
+            if (rndNum <= 3) {
                 car.setState(false);
-                checkIn = LocalDateTime.now();
-                carInParking = car;
+                setCarInParking(car);
+                parking.setFreeSpace(-1);
             }
         }
     }
 
-    public static void printNote(){
-        System.out.println("| НОМЕР |        ВРЕМЯ ЗАЕЗДА           |         ВРЕМЯ ВЫЕЗДА         |     ЗАДОЛЖНОСТЬ     |");
-        System.out.printf("|  %-5s|   %-28s|  %-28s|          %-11s|\n", carInParking.getNumber(), checkIn, checkOut, sum);
+    public void printNote() {
+        System.out.println("| НОМЕР |        ВРЕМЯ ЗАЕЗДА           |        ВРЕМЯ ВЫЕЗДА          |     ЗАДОЛЖНОСТЬ     |");
+        System.out.printf("|  %-5s| %-28s | %-28s|         %-11s |\n", getCarInParking().getNumber(), getCheckIn(), getCheckOut(), getSum());
         System.out.println("+--------------------------------------------------------------------------------------------+");
     }
 
-    public static  void parking (List<Car> cars){
-        for(Car car : cars){
+    public void parking(List<Car> cars) {
+        for (Car car : cars) {
             checkParking(car);
         }
     }
-    public int checkSum(){
-        int checkTime = checkOut.getMinute() - checkIn.getMinute();
+
+    public int checkSum() {
+        int checkTime = getCheckOut().getMinute() - getCheckIn().getMinute();
         int price = checkTime * 2;
         LocalTime checkHour = LocalTime.of(21, 00);
         LocalTime checkHour2 = LocalTime.of(9, 00);
-        if(checkTime < 30 || checkIn.isAfter(ChronoLocalDateTime.from(checkHour)) ||checkIn.isBefore(ChronoLocalDateTime.from(checkHour2))) {
-            sum = 0;
-        }else{
-            sum = price;
+        if (checkTime < 30 || getCheckIn().isAfter(ChronoLocalDateTime.from(checkHour)) || getCheckIn().isBefore(ChronoLocalDateTime.from(checkHour2))) {
+            setSum(0);
+        } else {
+            setSum(price);
         }
-        return sum;
+        return getSum();
     }
 
-    public static Random getRnd() {
-        return rnd;
-    }
-
-    public static void setRnd(Random rnd) {
-        Note.rnd = rnd;
-    }
-
-    public static LocalDateTime getCheckIn() {
+    public LocalDateTime getCheckIn() {
         return checkIn;
     }
 
-    public static void setCheckIn(LocalDateTime checkIn) {
-        Note.checkIn = checkIn;
+    public void setCheckIn(LocalDateTime checkIn) {
+        this.checkIn = checkIn;
     }
 
-    public static LocalDateTime getCheckOut() {
+    public LocalDateTime getCheckOut() {
         return checkOut;
     }
 
-    public static void setCheckOut(LocalDateTime checkOut) {
-        Note.checkOut = checkOut;
+    public void setCheckOut(LocalDateTime checkOut) {
+        this.checkOut = checkOut;
     }
 
-    public static Car getCarInParking() {
+    public Car getCarInParking() {
         return carInParking;
     }
 
-    public static void setCarInParking(Car carInParking) {
-        Note.carInParking = carInParking;
+    public void setCarInParking(Car carInParking) {
+        this.carInParking = carInParking;
+    }
+
+    public int getSum() {
+        return sum;
     }
 
     public void setSum(int sum) {
